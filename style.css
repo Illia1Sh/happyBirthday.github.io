@@ -1,0 +1,534 @@
+@media (max-width: 480px) {
+  #board {
+    position: fixed;
+    /* всегда поверх, по центру */
+    top: 30px;
+    /* отступ сверху */
+    left: 30px;
+    /* отступ слева */
+    right: 30px;
+    /* отступ справа */
+    bottom: 30px;
+    /* отступ снизу */
+    background: rgba(255, 255, 255, 0.25);
+    /* цвет (меняй на свой) */
+    border-radius: 20px;
+    /* закруглённые углы */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    opacity: 0;
+    /* изначально скрыт */
+    transform: scale(0.8);
+    /* эффект появления */
+    transition: opacity 1s ease, transform 1s ease;
+    z-index: 1000;
+    /* поверх всего */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    overflow-y: auto;
+    /* дозволяє скролити */
+    overflow-x: hidden;
+    /* блокує горизонтальний вихід */
+
+    box-sizing: border-box;
+    text-align: left;
+
+    word-wrap: break-word;
+    /* старий синтаксис */
+    overflow-wrap: break-word;
+    /* новий синтаксис */
+    word-break: break-word;
+    /* підстраховка */
+  }
+  
+  #pText {
+    position: relative;
+    top: 25px;
+    margin: 10px;
+    padding: 5px;
+    font-size: 20px;
+
+    font-family: "Advent Pro", sans-serif;
+    /* сам шрифт */
+    font-optical-sizing: auto;
+    /* автоматическая оптика */
+    font-weight: 800;
+    /* толщина */
+    font-style: normal;
+    /* стиль */
+    font-variation-settings: "wdth" 150;
+    /* ширина символов */
+
+    line-height: 1.4;
+    white-space: normal;
+    /* переносимо текст */
+    max-width: 100%;
+    flex: none;
+    /* прибираємо "вилазіння" через flex */
+  }
+}
+
+/* твой #titel с добавлением класса */
+#titel {
+  position: absolute;
+  top: 40vh; /* стартовая вертикальная позиция */
+  left: 50%; /* центр по горизонтали */
+  transform: translateX(-50%) scale(1); /* старт: по центру и нормальный размер */
+  width: 85vw;
+  height: 5vh;
+  text-align: center;
+  z-index: 1500;
+  /* анимация движения и изменения размера */
+  animation: riseAndShrink 2s ease-in-out 8s forwards;
+}
+#titelH{
+  z-index: 2000;
+}
+
+@keyframes riseAndShrink {
+  from {
+    transform: translateX(-50%) translateY(0) scale(1); /* стартовая позиция и размер */
+    opacity: 1; /* видимый */
+  }
+  to {
+    transform: translateX(-50%) translateY(-36vh) scale(0.7); /* двигаем вверх и уменьшаем */
+    opacity: 1; /* можно сделать 0, если нужно полностью исчезнуть */
+  }
+}
+
+#titelH {
+  font-family: "Advent Pro", sans-serif;
+  display: inline-block;
+  transform: scaleX(1.18) scaleY(1.5);
+  font-size: 30px;
+  font-weight: 800;
+  font-style: normal;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 3px solid rgb(0, 0, 0);
+  position: relative;
+
+  /* печатаем текст + мигающий курсор + скрытие курсора */
+  animation: printed_text 3s steps(15) forwards,
+             cursor 0.75s step-end infinite,
+             hideCursor 0.1s forwards;
+  animation-delay: 0s, 0s, 5s; /* hideCursor срабатывает через 7 секунд */
+}
+
+/* печать текста */
+@keyframes printed_text {
+  from { width: 0; }
+  to   { width: 100%; } /* печатаем все 15 символов */
+}
+
+/* мигающий курсор */
+@keyframes cursor {
+  0%, 100% { border-color: rgb(0, 0, 0); }
+  50% { border-color: transparent; }
+}
+
+/* скрытие курсора */
+@keyframes hideCursor {
+  to { border-color: transparent; }
+}
+
+/* смайлик появится позже */
+#titelH::after {
+  content: "🥳";
+  opacity: 0;
+  animation: emoji 0.1s forwards;
+  animation-delay: 4s; /* время печати текста (3s) + 1s задержка */
+}
+
+@keyframes emoji {
+  to { opacity: 1; }
+}
+
+#board.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+#btnClick {
+  background: none;
+  /* убираем фон */
+  border: none;
+  /* убираем обводку */
+  padding: 0;
+  /* убираем отступы */
+  cursor: pointer;
+  /* оставляем, чтобы был "палец" при наведении */
+}
+
+html,
+body {
+  height: 100% !;
+  margin: 0;
+  overflow-y: hidden !;
+}
+
+body {
+  background-color: rgb(238, 213, 217);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow-y: hidden;
+}
+
+#idDiv {
+  top: 50vh;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.balloon {
+  position: absolute;
+  width: 150px;
+  height: 300px;
+  opacity: 0.8;
+  object-fit: contain;
+}
+
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 20px;
+  opacity: 0.9;
+}
+
+#btnClick {
+  background: none;
+  overflow: hidden;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  width: 200px;
+  height: 200px;
+}
+
+#cake {
+  width: 250px;
+  height: 250px;
+  position: relative;
+  top: -25px;
+  left: -25px;
+  filter:
+    drop-shadow(-5px 0 2px rgba(0, 0, 0, 0.5))
+    /* тень слева */
+    drop-shadow(5px 0 2px rgba(0, 0, 0, 0.5));
+  /* тень справа */
+}
+
+
+
+@media only screen and (min-width: 481px) and (max-width: 766px) {
+  #board {
+    position: fixed;
+    /* всегда поверх, по центру */
+    top: 30px;
+    /* отступ сверху */
+    left: 30px;
+    /* отступ слева */
+    right: 30px;
+    /* отступ справа */
+    bottom: 30px;
+    /* отступ снизу */
+    background: rgba(255, 255, 255, 0.25);
+    /* цвет (меняй на свой) */
+    border-radius: 20px;
+    /* закруглённые углы */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    opacity: 0;
+    /* изначально скрыт */
+    transform: scale(0.8);
+    /* эффект появления */
+    transition: opacity 1s ease, transform 1s ease;
+    z-index: 1000;
+    /* поверх всего */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    overflow-y: auto;
+    /* дозволяє скролити */
+    overflow-x: hidden;
+    /* блокує горизонтальний вихід */
+
+    box-sizing: border-box;
+    text-align: left;
+
+    word-wrap: break-word;
+    /* старий синтаксис */
+    overflow-wrap: break-word;
+    /* новий синтаксис */
+    word-break: break-word;
+    /* підстраховка */
+  }
+
+  #pText {
+    position: relative;
+    top: 10px;
+    margin: 10px;
+    padding: 5px;
+    font-size: 20px;
+
+    font-family: "Advent Pro", sans-serif;
+    /* сам шрифт */
+    font-optical-sizing: auto;
+    /* автоматическая оптика */
+    font-weight: 800;
+    /* толщина */
+    font-style: normal;
+    /* стиль */
+    font-variation-settings: "wdth" 150;
+    /* ширина символов */
+
+    line-height: 1.4;
+    white-space: normal;
+    /* переносимо текст */
+    max-width: 100%;
+    flex: none;
+    /* прибираємо "вилазіння" через flex */
+  }
+}
+
+#board.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+#btnClick {
+  background: none;
+  /* убираем фон */
+  border: none;
+  /* убираем обводку */
+  padding: 0;
+  /* убираем отступы */
+  cursor: pointer;
+  /* оставляем, чтобы был "палец" при наведении */
+}
+
+html,
+body {
+  height: 100% !;
+  margin: 0;
+  overflow-y: hidden !;
+}
+
+body {
+  background-color: rgb(238, 213, 217);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow-y: hidden;
+}
+
+#idDiv {
+  top: 50vh;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.balloon {
+  position: absolute;
+  width: 150px;
+  height: 300px;
+  opacity: 0.8;
+  object-fit: contain;
+}
+
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 20px;
+  opacity: 0.9;
+}
+
+#btnClick {
+  background: none;
+  overflow: hidden;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  width: 200px;
+  height: 200px;
+}
+
+#cake {
+  width: 250px;
+  height: 250px;
+  position: relative;
+  top: -25px;
+  left: -25px;
+  filter:
+    drop-shadow(-5px 0 2px rgba(0, 0, 0, 0.5))
+    /* тень слева */
+    drop-shadow(5px 0 2px rgba(0, 0, 0, 0.5));
+  /* тень справа */
+}
+
+
+@media only screen and (min-width: 767px) and (max-width: 1023px) {
+  #board {
+    position: fixed;
+    /* всегда поверх, по центру */
+    top: 30px;
+    /* отступ сверху */
+    left: 30px;
+    /* отступ слева */
+    right: 30px;
+    /* отступ справа */
+    bottom: 30px;
+    /* отступ снизу */
+    background: rgba(255, 255, 255, 0.25);
+    /* цвет (меняй на свой) */
+    border-radius: 20px;
+    /* закруглённые углы */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    opacity: 0;
+    /* изначально скрыт */
+    transform: scale(0.8);
+    /* эффект появления */
+    transition: opacity 1s ease, transform 1s ease;
+    z-index: 1000;
+    /* поверх всего */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    overflow-y: auto;
+    /* дозволяє скролити */
+    overflow-x: hidden;
+    /* блокує горизонтальний вихід */
+
+    box-sizing: border-box;
+    text-align: left;
+
+    word-wrap: break-word;
+    /* старий синтаксис */
+    overflow-wrap: break-word;
+    /* новий синтаксис */
+    word-break: break-word;
+    /* підстраховка */
+  }
+
+  #pText {
+    position: relative;
+    top: 10px;
+    margin: 10px;
+    padding: 5px;
+    font-size: 20px;
+
+    font-family: "Advent Pro", sans-serif;
+    /* сам шрифт */
+    font-optical-sizing: auto;
+    /* автоматическая оптика */
+    font-weight: 800;
+    /* толщина */
+    font-style: normal;
+    /* стиль */
+    font-variation-settings: "wdth" 150;
+    /* ширина символов */
+
+    line-height: 1.4;
+    white-space: normal;
+    /* переносимо текст */
+    max-width: 100%;
+    flex: none;
+    /* прибираємо "вилазіння" через flex */
+  }
+}
+
+#board.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+#btnClick {
+  background: none;
+  /* убираем фон */
+  border: none;
+  /* убираем обводку */
+  padding: 0;
+  /* убираем отступы */
+  cursor: pointer;
+  /* оставляем, чтобы был "палец" при наведении */
+}
+
+html,
+body {
+  height: 100% !;
+  margin: 0;
+  overflow-y: hidden !;
+}
+
+body {
+  background-color: rgb(238, 213, 217);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow-y: hidden;
+}
+
+#idDiv {
+  top: 50vh;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.balloon {
+  position: absolute;
+  width: 150px;
+  height: 300px;
+  opacity: 0.8;
+  object-fit: contain;
+}
+
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 20px;
+  opacity: 0.9;
+}
+
+#btnClick {
+  background: none;
+  overflow: hidden;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  width: 200px;
+  height: 200px;
+}
+
+#cake {
+  width: 250px;
+  height: 250px;
+  position: relative;
+  top: -25px;
+  left: -25px;
+  filter:
+    drop-shadow(-5px 0 2px rgba(0, 0, 0, 0.5))
+    /* тень слева */
+    drop-shadow(5px 0 2px rgba(0, 0, 0, 0.5));
+  /* тень справа */
+}
