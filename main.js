@@ -104,7 +104,7 @@ button.addEventListener("click", () => {
                     balloon.style.transform = `translate(${offsetX}px, ${offsetY}px) rotate(${tilt}deg)`;
 
                     // удаляем элемент после достижения верхней границы
-                    if (offsetY + balloon.height > -450) {
+                    if (offsetY + balloon.height > -650) {
                         requestAnimationFrame(animateBalloon);
                     } else {
                         balloon.remove();
