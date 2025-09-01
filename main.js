@@ -87,7 +87,7 @@ button.addEventListener("click", () => {
                 let maxTilt = 5 + Math.random() * 5;           // угол наклона
                 let swing = 50 + Math.random() * 50;          // горизонтальный размах
                 //let riseSpeed = 0.5 + Math.random() * 0.5;    // вертикальный подъём
-                let riseSpeed = (0.5 + Math.random() * 0.5) * (window.innerHeight / 1100);
+                let riseSpeed = (0.5 + Math.random() * 2.5) * (window.innerHeight / 1100);
 
                 let posY = 0;
 
